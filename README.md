@@ -1,4 +1,4 @@
-filebrowser
+fIlebrowser
 ===========
 
-Simple Filebrowser HTML + JS frontend, python backend. 
+HTML, JS, Python based filebrowser

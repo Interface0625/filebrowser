@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Mappar</title>
+<!-- jstree -->
+<link rel="stylesheet" href="js/jstree-master/dist/themes/default/style.css" />
+<script src="js/jstree-master/dist/libs/jquery.js"></script>
+<script src="js/jstree-master/dist/jstree.min.js"></script>
+<!-- Implementation -->
+<link rel="stylesheet" type="text/css" href="res/style.css">
+<script type="text/javascript" src="js/script.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="jstreeContainer"></div>
+        <div id="mainWindow">
+            <div id="topCtrl">
+                <div style="float:left;">
+<input type="button" value="Upp" onclick="go_up();">
+<input type="button" value="Ny mapp" onclick="mkdir();">
+<input type="file" id="file-select" multiple/>
+<input type="button" value="Ladda Upp" onclick="upload();" id="upload-button">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

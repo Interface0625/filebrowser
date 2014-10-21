@@ -6,19 +6,26 @@
 body{
     background-color: #2a2a2a;
 }
-input, button{
+input{
     border: none;
     color: #FFF;
     background-color: #111;
+    padding: 8px;
+    margin-top: 4px;
+    margin-left: 4px;
 }
 input:hover{
     background-color: #4b699b;
 }
-form{
+#delete-button{
+    float: right;
+    margin-right: 4px;
+}
+/*form{
     padding-top: 10px;
     padding-left: 10px;
     color: #000;
-}
+}*/
 #jstreeContainer{
     overflow: auto;
     background-color: #313233;
@@ -57,4 +64,18 @@ form{
     text-align: center;
     word-wrap: break-word;
 
+}
+
+
+
+
+
+
+
+/************************************/
+.jstree-default .jstree-hovered {
+    background-color: #4b699b;
+}
+.jstree-default .jstree-clicked {
+    background: #4b699b;
 }

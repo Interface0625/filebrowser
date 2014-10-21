@@ -106,7 +106,7 @@ class MyHandler(SimpleHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    PORT = 80
+    PORT = 8000
     HOST = ''
     server = HTTPServer((HOST, PORT), MyHandler)
     print 'started httpserver...'

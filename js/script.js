@@ -193,31 +193,40 @@ function upload(url, done_callback){
     url = url || 'put?';
     var fileSelect = document.getElementById('file-select');
     var uploadButton = document.getElementById('upload-button');
-    
-    // Update button text.
-    uploadButton.value = 'Uploading...';
-
-    // Get the selected files from the input.
-    var files = fileSelect.files;
-    // Create a new FormData object.
-    var formData = new FormData();
-    // Loop through each of the selected files.
-    var folder = curdir();
-    for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        var path = folder + '/' + file.name;
-        // Add the file to the request.
-        // pass as tuples/pairs (filename, filedata)
-        formData.append('files', path);
-        formData.append('files', file, file.name);
-    }
-    xhrPost(url, function () {
-        if (this.status != 200) { return; }
-        // File(s) uploaded.
-        uploadButton.value = 'Upload';
-        if(typeof done_callbeck != 'undefined') { 
-            done_callbeck(this.responseText);        
+    fileSelect.click();
+    fileSelect.onchange = function(e){
+        var files = fileSelect.files;
+        
+        if ( files.length == 0 ){ 
+            console.log("Nothing to upload");
+            return;
         }
-    }, formData);
-    ls();
+        console.log("Uploading...");
+        // Update button text.
+        uploadButton.value = 'Uploading...';
+
+        // Get the selected files from the input.
+        var files = fileSelect.files;
+        // Create a new FormData object.
+        var formData = new FormData();
+        // Loop through each of the selected files.
+        var folder = curdir();
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var path = folder + '/' + file.name;
+            // Add the file to the request.
+            // pass as tuples/pairs (filename, filedata)
+            formData.append('files', path);
+            formData.append('files', file, file.name);
+        }
+        xhrPost(url, function () {
+            if (this.status != 200) { return; }
+            // File(s) uploaded.
+            uploadButton.value = 'Upload';
+            if(typeof done_callbeck != 'undefined') { 
+                done_callbeck(this.responseText);        
+            }
+        }, formData);
+        ls();
+    };
 }

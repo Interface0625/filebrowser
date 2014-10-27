@@ -39,7 +39,7 @@ function MakeFolderDiv(name){
     imgc.style["margin"] = "auto";
     
     var img = document.createElement("img");
-    img.src = "res/folder.png";
+    img.src = "res/png/folder.png";
     img.style["width"] = "64px";
     img.style["height"] = "64px";
 
@@ -73,7 +73,7 @@ function MakeFileDiv(name){
     imgc.style["margin"] = "auto";
     
     var img = document.createElement("img");
-    img.src = "res/file.png";
+    img.src = "res/png/file.png";
     img.style["width"] = "64px";
     img.style["height"] = "64px";
 
@@ -129,7 +129,7 @@ function init_jstreeContainer(){
                 xhrPost("get_all_folders", function(){
                     //treeData = 
                     var folders = JSON.parse(this.responseText)["folders"];
-                    var result = [];
+                    var result = [];//[{"id":folders[0], "text":" ", "parrent": "#"}];
                     for(var x = 0; x < folders.length; x++){
                         var id = folders[x];
                         var splited = folders[x].split("/");

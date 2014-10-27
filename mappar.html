@@ -12,14 +12,20 @@
 <body>
     <div id="wrapper">
         <div id="jstreeContainer"></div>
-        <div id="mainWindow">
-            <div id="topCtrl">
-<input type="button" value="Upp" onclick="go_up();">
-<input type="button" value="Ny mapp" onclick="mkdir();">
-<input type="file" id="file-select" multiple hidden>
-<input type="button" value="Ladda Upp" onclick="upload();" id="upload-button" >
-<input type="button" value="Ta bort" onclick="alert('impl');" id="delete-button">
+        <div id="wrapperVertical">
+            <div id="action-bar">
+        <input 
+        type="button" value="Upp" onclick="go_up();">
+        <input 
+        type="button" value="Ny mapp" onclick="mkdir();">
+        <input 
+        type="file" id="file-select" multiple hidden>
+        <input 
+        type="button" value="Ladda Upp" onclick="upload();" id="upload-button" >
+        <input 
+        type="button" value="Ta bort" onclick="alert('impl');" id="delete-button">
             </div>
+            <div id="mainWindow"></div>
         </div>
     </div>
 </body>

@@ -6,9 +6,13 @@ function xhrGet(reqUri, callback) {
     xhr.send();
 }
 
-
+var token = "tokenFromJS";
 function xhrPost(reqUri, callback, data) {
     data = data || new FormData();
+    if(typeof token !== 'undefined'){
+        data.append('token', token);
+        console.log(token);
+    }
     /*
     data.append('user', 'person');
     data.append('pwd', 'password');
@@ -63,7 +67,7 @@ function MakeFileDiv(name){
     div.onclick = function(){
         var form = document.createElement('form');
         form.method = "post";
-        form.action = 'get?'+name;
+        form.action = 'get?'+encodeURIComponent(name);
         form.submit();
     }
 
@@ -97,7 +101,7 @@ function go_up(){
     
     $('#jstreeContainer').jstree(true).deselect_all();
     $('#jstreeContainer').jstree(true).select_node(destFolder);
-    ls(destFolder);
+    //ls(destFolder);
 }
 
 function mkdir(){
@@ -128,6 +132,7 @@ function init_jstreeContainer(){
                 var self = this;
                 xhrPost("get_all_folders", function(){
                     //treeData = 
+                    console.log(this.responseText);
                     var folders = JSON.parse(this.responseText)["folders"];
                     var result = [];//[{"id":folders[0], "text":" ", "parrent": "#"}];
                     for(var x = 0; x < folders.length; x++){
@@ -168,7 +173,7 @@ function ls(path){
     var path = path || curdir();
     $("#jstreeContainer").jstree("open_node", path);
     // ListFolder(path);
-    xhrPost('ls?' + path, function(){
+    xhrPost('ls?' + encodeURIComponent(path), function(){
         data = JSON.parse(this.responseText)
         var container = document.getElementById("mainWindow");
 

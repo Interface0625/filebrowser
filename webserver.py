@@ -8,8 +8,9 @@ from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 import os
 import json
-import urllib2
+import urllib
 from itertools import izip
+
 
 root = os.path.join(os.getcwd(), "data")
 
@@ -19,6 +20,10 @@ def backup_file(path):
 class MyHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         #global rootnode
+        ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+        if ctype == 'multipart/form-data': 
+            self.query=cgi.parse_multipart(self.rfile, pdict)
+            print(urllib.unquote(self.path), self.query)
         #try:
         if self.path.startswith("/put"): self.upload(self.path.split("?"))
         elif self.path.startswith("/ls"): self.resp( self.ls(self.path.split("?")[1]) )
@@ -33,21 +38,20 @@ class MyHandler(SimpleHTTPRequestHandler):
 
     def fix_path(self, path):
         global root
-        if not path.startswith("/"): path = "/" + path
+        path = urllib.unquote(path)
+        if not path.startswith("/"): 
+            path = "/" + path
         path = root + path
         if "./" in path: return None
         if "../" in path: return None
-        path = urllib2.unquote(path)
         return path
 
     def upload(self, path):
         #try:
-        ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-        if ctype == 'multipart/form-data': query=cgi.parse_multipart(self.rfile, pdict)
         self.send_response(200)
         self.end_headers()
 
-        a = iter(query.get('files'))
+        a = iter(self.query.get('files'))
         pairs = izip(a, a) 
         for filename, data in pairs:
             path = self.fix_path(filename)
@@ -64,7 +68,7 @@ class MyHandler(SimpleHTTPRequestHandler):
         if not os.path.isdir(path): return '{"func": "ls", "error": "path is not dir", "path": "' + path + '"}'
 
         result = {'folders': [], 'files': []}
-        for r, b, l in os.walk(path):
+        for r, b, l in os.walk(path, followlinks=True):
             for d in b:
                 result['folders'] += [os.path.join(r, d).replace(root, "")]
             for f in l:
@@ -86,7 +90,7 @@ class MyHandler(SimpleHTTPRequestHandler):
         
         self.send_response(200)
         self.send_header ("Content-Type", "application/octet-stream")
-        self.send_header ("Content-Disposition", "attachment;filename=%s" % urllib2.quote (os.path.basename (path)))
+        self.send_header ("Content-Disposition", "attachment;filename=%s" % urllib.quote (os.path.basename (path)))
         self.send_header ("Content-Length", os.path.getsize (path))
         self.end_headers()
 
@@ -97,7 +101,7 @@ class MyHandler(SimpleHTTPRequestHandler):
     def get_all_folders(self):
         path = root
         result = { 'folders': [] }
-        for r, b, l in os.walk(path):
+        for r, b, l in os.walk(path, followlinks=True):
             for d in b:
                 result['folders'] += [os.path.join(r, d).replace(root, "")]
 

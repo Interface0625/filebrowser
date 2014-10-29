@@ -2,7 +2,7 @@
 *{
     padding: 0px;
     margin: 0px;
-    color: #FFF;
+    /* color: #FFF; */
     font-family:'Open Sans',sans-serif;
 }
 input{
@@ -23,6 +23,7 @@ input:hover{
 #jstreeContainer{
     overflow: auto;
     /* border: solid; */
+    color: #AAA;
     background-color: #222;
     float: left;
     width: 256px;
@@ -30,6 +31,7 @@ input:hover{
 }
 #mainWindow{
     height: 100%;
+    color: #FFF;
     background-color: #444;
     overflow: auto;
 }

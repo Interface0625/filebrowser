@@ -89,9 +89,12 @@ class MyHandler(SimpleHTTPRequestHandler):
         if os.path.isdir(path): return '{"func": "get", "error": "path is a dir"}'
         
         self.send_response(200)
-        self.send_header ("Content-Type", "application/octet-stream")
-        self.send_header ("Content-Disposition", "attachment;filename=%s" % urllib.quote (os.path.basename (path)))
-        self.send_header ("Content-Length", os.path.getsize (path))
+        
+        if path.lower().endswith('.ods'):
+            self.send_header ("Content-Type", "application/octet-stream")
+            self.send_header ("Content-Disposition", "attachment;filename=%s" % urllib.quote (os.path.basename (path)))
+            self.send_header ("Content-Length", os.path.getsize (path))
+        
         self.end_headers()
 
         # Send header with file type

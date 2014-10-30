@@ -58,6 +58,21 @@ function MakeFolderDiv(name){
     return div;
 }
 
+function MakeLocationBar(){
+    var locationBar = document.createElement("div");
+    locationBar.id = "locationBar";
+    var locations = curdir().split("/");
+
+    for (var i = 0; i < locations.length; i++) {
+        var locItem = document.createElement("div");
+        locItem.id = locations[i];
+        locItem.className = 'locationItem';
+        locItem.innerText = locations[i];
+        locationBar.appendChild(locItem);
+    }
+
+    return locationBar;
+}
 
 function MakeFileDiv(name){
     var div = document.createElement("div");
@@ -68,6 +83,7 @@ function MakeFileDiv(name){
         var form = document.createElement('form');
         form.method = "post";
         form.action = 'get?'+encodeURIComponent(name);
+        form.target = "_blank";
         form.submit();
     }
 
@@ -92,7 +108,7 @@ function MakeFileDiv(name){
 }
 
 function go_up(){
-    if (curdir() == "/mappar") { return; /* root not permited*/ }
+    //if (curdir() == "/") { return; /* root not permited*/ }
 
     splited = curdir().split("/");
     splited.pop();
@@ -170,12 +186,15 @@ function curdir(){ return $('#jstreeContainer').jstree(true).get_selected()[0]; 
 
 
 function ls(path){
+    var container = document.getElementById("mainWindow");
     var path = path || curdir();
     $("#jstreeContainer").jstree("open_node", path);
+    $('#locationBar').remove();
+    container.appendChild(MakeLocationBar());
+    
     // ListFolder(path);
     xhrPost('ls?' + encodeURIComponent(path), function(){
         data = JSON.parse(this.responseText)
-        var container = document.getElementById("mainWindow");
 
         // Remove old:
         $('.itms').remove();
